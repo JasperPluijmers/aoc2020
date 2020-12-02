@@ -6,10 +6,10 @@ pub fn day2() {
     let split_input: Vec<Vec<&str>> = inputs.iter()
         .map(|line| -> Vec<&str> {line.split(|c| (c == ' ') || (c == '-')).collect()})
         .collect();
-    let corrects: Vec<bool> = split_input.iter().map(|line| -> bool {correct(line)}).collect();
-    let corrects2: Vec<bool> = split_input.iter().map(|line| -> bool {correct2(line)}).collect();
-    println!("{:?}", corrects.iter().filter(|x| **x).count());
-    println!("{:?}", corrects2.iter().filter(|x| **x).count())
+    let corrects= split_input.iter().map(|line| correct(line)).filter(|&x| x).count();
+    let corrects2 = split_input.iter().map(|line| correct2(line)).filter(|&x| x).count();
+    println!("{:?}", corrects);
+    println!("{:?}", corrects2)
 }
 
 fn correct(args: &Vec<&str>) -> bool{
