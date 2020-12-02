@@ -8,8 +8,8 @@ pub fn day2() {
         .collect();
     let corrects: Vec<bool> = split_input.iter().map(|line| -> bool {correct(line)}).collect();
     let corrects2: Vec<bool> = split_input.iter().map(|line| -> bool {correct2(line)}).collect();
-    println!("{:?}", corrects.iter().filter(|x| (x == &&true)).count());
-    println!("{:?}", corrects2.iter().filter(|x| (x == &&true)).count())
+    println!("{:?}", corrects.iter().filter(|x| **x).count());
+    println!("{:?}", corrects2.iter().filter(|x| **x).count())
 }
 
 fn correct(args: &Vec<&str>) -> bool{
