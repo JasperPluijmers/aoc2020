@@ -1,11 +1,8 @@
 mod day1;
-use day1::day1;
+mod day2;
 
-fn test(some: &String) {
-    println!("{}", some)
-}
+use day2::day2;
+
 fn main() {
-    let s = String::from("hoi");
-    test(&s);
-    s.bytes();
+    day2()
 }

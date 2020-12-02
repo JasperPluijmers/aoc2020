@@ -1,7 +1,7 @@
 use std::fs;
 
 pub fn day1() {
-    let filename = "./input.txt";
+    let filename = "./input1.txt";
     let input = fs::read_to_string(filename).expect("Can't read the file");
     let split = input.lines();
     let numbers: Vec<i32> = split.map(|x| str::parse(x).expect("not an int")).collect();
