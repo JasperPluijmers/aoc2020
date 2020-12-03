@@ -6,8 +6,8 @@ pub fn day2() {
     let split_input: Vec<Vec<&str>> = inputs.iter()
         .map(|line| -> Vec<&str> {line.split(|c| (c == ' ') || (c == '-')).collect()})
         .collect();
-    let corrects= split_input.iter().map(|line| correct(line)).filter(|&x| x).count();
-    let corrects2 = split_input.iter().map(|line| correct2(line)).filter(|&x| x).count();
+    let corrects= split_input.iter().filter(|line| correct(line)).count();
+    let corrects2 = split_input.iter().filter(|line| correct2(line)).count();
     println!("{:?}", corrects);
     println!("{:?}", corrects2)
 }
@@ -28,9 +28,9 @@ pub fn file_to_strings(filename: &str) -> Vec<String> {
 }
 
 fn unpack(args: &Vec<&str>) -> (usize, usize, char, String) {
-    let number_one : usize = args.get(0).unwrap().parse().unwrap();
-    let number_two : usize = args.get(1).unwrap().parse().unwrap();
-    let letter: char = args.get(2).unwrap().chars().next().unwrap();
-    let word: &str = args.get(3).unwrap();
+    let number_one : usize = args[0].parse().unwrap();
+    let number_two : usize = args[1].parse().unwrap();
+    let letter: char = args[2].chars().next().unwrap();
+    let word: &str = args[3];
     return (number_one, number_two, letter, String::from(word))
 }
