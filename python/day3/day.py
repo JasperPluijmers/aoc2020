@@ -1,5 +1,5 @@
 import functools
-with open('input.txt') as file:
+with open('input_gerjan.txt') as file:
     data = [[*line.strip()] for line in file.readlines()]
 
 
@@ -18,4 +18,5 @@ def calculate_trees(map, slop_x, slope_y):
 
 slopes = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
 print(calculate_trees(data, 3, 1))
+print([calculate_trees(data, *slope) for slope in slopes])
 print(functools.reduce(lambda x, y: x*y, [calculate_trees(data, *slope) for slope in slopes]))
