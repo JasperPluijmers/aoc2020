@@ -1,7 +1,7 @@
 import re
 
 fields = ['byr:', 'iyr:', 'eyr:', 'hgt:', 'hcl:', 'ecl:', 'pid:']
-fields_bare = {'byr': lambda value: four_digit_valid(value, 1920, 2002),
+fields_validity = {'byr': lambda value: four_digit_valid(value, 1920, 2002),
                'iyr': lambda value: four_digit_valid(value, 2010, 2020),
                'eyr': lambda value: four_digit_valid(value, 2020, 2030),
                'hgt': lambda value: hgt_valid(value),
@@ -46,7 +46,7 @@ def is_line_valid(input_line: str):
     entry_list = input_line.strip().split(" ")
     for entry in entry_list:
         field, value = entry.split(":")
-        if not fields_bare[field](value):
+        if not fields_validity[field](value):
             return False
     return True
 
