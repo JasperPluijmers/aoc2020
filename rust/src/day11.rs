@@ -12,7 +12,7 @@ pub fn day11() {
     let begin = time::Instant::now();
     while result != None {
         map = result.unwrap();
-        result = evolve_map(&map);
+        result = evolve_map_neighbours(&map);
         if result == None {
             println!("{:?}", count_occupied(&map));
         }
@@ -23,7 +23,7 @@ pub fn day11() {
     let begin2 = time::Instant::now();
     while result != None {
         map = result.unwrap();
-        result = evolve_map_2(&map);
+        result = evolve_map_seen(&map);
         if result == None {
             println!("{:?}", count_occupied(&map));
         }
@@ -46,34 +46,24 @@ fn print_map(map: &Vec<Vec<Tile>>) {
         }
     }
 }
-fn evolve_map(map: &Vec<Vec<Tile>>) -> Option<Vec<Vec<Tile>>> {
+fn evolve_map_neighbours(map: &Vec<Vec<Tile>>) -> Option<Vec<Vec<Tile>>> {
     let mut changed = false;
-    let mut new_map: Vec<Vec<Tile>> =  Vec::new();
+    let mut new_map: Vec<Vec<Tile>> =  map.clone();
     for y in 0..map.len() {
-        new_map.push(Vec::new());
         for x in 0..map[0].len() {
             match map[y][x] {
                 Tile::FLOOR => {
-                    new_map[y].push(Tile::FLOOR)
                 }
                 Tile::EMPTY => {
                     if count_occupied_neigbours(map, x, y) == 0 {
-                        new_map[y].push(Tile::OCCUPIED);
-                        if !changed {
-                            changed = true
-                        }
-                    } else {
-                        new_map[y].push(Tile::EMPTY)
+                        new_map[y][x] = Tile::OCCUPIED;
+                        changed = true
                     }
                 }
                 Tile::OCCUPIED => {
                     if count_occupied_neigbours(map, x, y) >= 4 {
-                        new_map[y].push(Tile::EMPTY);
-                        if !changed {
-                            changed = true
-                        }
-                    } else {
-                        new_map[y].push(Tile::OCCUPIED)
+                        new_map[y][x] = Tile::EMPTY;
+                        changed = true
                     }
                 }
             }
@@ -85,34 +75,24 @@ fn evolve_map(map: &Vec<Vec<Tile>>) -> Option<Vec<Vec<Tile>>> {
     return None
 }
 
-fn evolve_map_2(map: &Vec<Vec<Tile>>) -> Option<Vec<Vec<Tile>>> {
+fn evolve_map_seen(map: &Vec<Vec<Tile>>) -> Option<Vec<Vec<Tile>>> {
     let mut changed = false;
-    let mut new_map: Vec<Vec<Tile>> =  Vec::new();
+    let mut new_map: Vec<Vec<Tile>> =  map.clone();
     for y in 0..map.len() {
-        new_map.push(Vec::new());
         for x in 0..map[0].len() {
             match map[y][x] {
                 Tile::FLOOR => {
-                    new_map[y].push(Tile::FLOOR)
                 }
                 Tile::EMPTY => {
                     if get_seen_occupied_chairs(map, x, y) == 0 {
-                        new_map[y].push(Tile::OCCUPIED);
-                        if !changed {
-                            changed = true
-                        }
-                    } else {
-                        new_map[y].push(Tile::EMPTY)
+                        new_map[y][x] = Tile::OCCUPIED;
+                        changed = true
                     }
                 }
                 Tile::OCCUPIED => {
                     if get_seen_occupied_chairs(map, x, y) >= 5 {
-                        new_map[y].push(Tile::EMPTY);
-                        if !changed {
-                            changed = true
-                        }
-                    } else {
-                        new_map[y].push(Tile::OCCUPIED)
+                        new_map[y][x] = Tile::EMPTY;
+                        changed = true
                     }
                 }
             }
@@ -191,9 +171,18 @@ pub fn string_to_tile(tile_string: char) -> Tile {
 }
 
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Copy)]
 pub enum Tile {
     FLOOR,
     EMPTY,
     OCCUPIED
+}
+impl Clone for Tile {
+    fn clone(&self) -> Self {
+        match self {
+            Tile::FLOOR => {Tile::FLOOR}
+            Tile::EMPTY => {Tile::EMPTY}
+            Tile::OCCUPIED => {Tile::OCCUPIED}
+        }
+    }
 }
